@@ -47,6 +47,14 @@ import Foundation
         }
 
     
+    func managePokemonList() {
+        if pokemonsList.isEmpty {
+            Task {
+                await getPokemonList()
+            }
+        }
+    }
+    
     func getPokemonList() async {
         let urlString = "https://pokeapi.co/api/v2/pokemon/?offset=0&limit=1153"
         

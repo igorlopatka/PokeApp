@@ -14,7 +14,7 @@ struct PokemonDetailsView: View {
     let pokemon: PokemonRow?
     
     var body: some View {
-        VStack{
+        VStack {
             AsyncImage(url: URL(string: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/\(viewModel.getPokemonIndex(pokemon: pokemon!)).png")) { image in
                 image.resizable()
             } placeholder: {

@@ -55,11 +55,8 @@ struct ContentView: View {
 
                 }
             })
-            .onAppear {
-                Task {
-                    viewModel.pokemonsList = []
-                    await viewModel.getPokemonList()
-                }
+            .task {
+                viewModel.managePokemonList()
             }
         }
     }
