@@ -15,12 +15,18 @@ struct PokemonRowView: View {
     var body: some View {
         HStack {
             AsyncImage(url: URL(string: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/\(viewModel.getPokemonIndex(pokemon: pokemon)).png")) { image in
-                image.resizable()
+                if let image = image {
+                    image
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: 80, height: 80)
+                }
+                
             } placeholder: {
                 ProgressView()
+                    .frame(width: 80, height: 80)
             }
-            .frame(width: 75, height: 75)
-            .clipShape(RoundedRectangle(cornerRadius: 35))
+            .clipShape(Circle())
             
             VStack {
                 HStack {
