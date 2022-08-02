@@ -43,7 +43,9 @@ struct ContentView: View {
             .toolbar(content: {
                 ToolbarItem {
                     Button {
-                        viewModel.showFavs.toggle()
+                        withAnimation {
+                            viewModel.showFavs.toggle()
+                        }
                     } label: {
                         if viewModel.showFavs {
                             Image(systemName: "star.fill")
