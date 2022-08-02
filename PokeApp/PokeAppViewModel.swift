@@ -28,13 +28,11 @@ import Foundation
                 } else {
                     return pokemonsList 
                 }
-                
             } else {
                 
                 return pokemonsList.filter { $0.name.lowercased().contains(searchText.lowercased())}
             }
         }
-        
         set {
             objectWillChange.send()
         }

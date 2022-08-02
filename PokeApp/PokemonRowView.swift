@@ -10,8 +10,7 @@ import SwiftUI
 struct PokemonRowView: View {
     
     let viewModel: PokeAppViewModel
-    
-    @State var pokemon: PokemonRow
+    let pokemon: PokemonRow
     
     var body: some View {
         HStack {
@@ -23,12 +22,20 @@ struct PokemonRowView: View {
             .frame(width: 75, height: 75)
             .clipShape(RoundedRectangle(cornerRadius: 35))
             
-            Text(pokemon.name.capitalized)
-                .font(.title)
-                .lineLimit(1)
-            
-            Spacer()
-            
+            VStack {
+                HStack {
+                    Text(pokemon.name.capitalized)
+                        .font(.title)
+                        .fontWeight(.semibold)
+                        .lineLimit(1)
+                    Spacer()
+                }
+                HStack {
+                    Text("Pokémon of type fire")
+                    Spacer()
+                }
+            }
+                        
             if pokemon.isFavourite {
                 Image(systemName: "star.fill")
                     .resizable()

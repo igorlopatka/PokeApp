@@ -8,7 +8,7 @@
 import Foundation
 
 struct PokemonPage: Codable {
-    
+
     let count: Int
     let results: [Pokemon]
 }
