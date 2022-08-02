@@ -10,11 +10,11 @@ import SwiftUI
 @main
 struct PokeAppApp: App {
     
-    @StateObject private var viewModel = PokeAppViewModel()
+    
     
     var body: some Scene {
         WindowGroup {
-            ContentView(viewModel: viewModel)
+            SplashView()
         }
     }
 }

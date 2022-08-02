@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ContentView: View {
     
-    @ObservedObject var viewModel: PokeAppViewModel
+    @StateObject private var viewModel = PokeAppViewModel()
     
     var body: some View {
         NavigationView {
@@ -38,6 +38,7 @@ struct ContentView: View {
                     Text("Failed to load Pokemons :(")
                 }
             }
+            .navigationBarBackButtonHidden(true)
             .navigationTitle("My Pokemons")
             .toolbar(content: {
                 ToolbarItem {
