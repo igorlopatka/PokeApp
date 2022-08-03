@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-struct ContentView: View {
+struct PokemonListView: View {
     
     @StateObject private var viewModel = PokeAppViewModel()
     

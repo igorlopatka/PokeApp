@@ -17,7 +17,7 @@ struct SplashView: View {
     var body: some View {
         VStack {
             if self.isActive {
-                ContentView()
+                PokemonListView()
             } else {
                 ZStack {
                     Image("landscape").resizable().aspectRatio(contentMode: .fill).edgesIgnoringSafeArea(.all)
