@@ -30,16 +30,16 @@ struct PokemonListView: View {
                         }
                     }
                     .listRowSeparator(.hidden)
-                    .searchable(text: $viewModel.searchText)
+                    .searchable(text: $viewModel.searchText, prompt: "Which Pokémon are you looking for?")
                     
                 case .loading:
                     ProgressView()
                 case .failed:
-                    Text("Failed to load Pokemons :(")
+                    Text("Failed to load Pokémons :(")
                 }
             }
             .navigationBarBackButtonHidden(true)
-            .navigationTitle("My Pokemons")
+            .navigationTitle("My Pokémons")
             .toolbar(content: {
                 ToolbarItem {
                     Button {
