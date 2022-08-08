@@ -95,4 +95,9 @@ import Foundation
             pokemonsList[chosenPokemonIndex].isFavourite.toggle()
         }
     }
+    
+    func imageURL(pokemon: PokemonRow) -> String {
+        let imageURL = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/\(getPokemonIndex(pokemon: pokemon)).png"
+        return imageURL
+    }
 }

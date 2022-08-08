@@ -14,7 +14,7 @@ struct PokemonRowView: View {
     
     var body: some View {
         HStack {
-            AsyncImage(url: URL(string: "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/\(viewModel.getPokemonIndex(pokemon: pokemon)).png")) { image in
+            AsyncImage(url: URL(string: viewModel.imageURL(pokemon: pokemon))) { image in
                 if let image = image {
                     image
                         .resizable()
