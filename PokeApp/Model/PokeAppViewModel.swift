@@ -83,6 +83,10 @@ import Foundation
         }
     }
     
+    func getPokemonDetails() async {
+        
+    }
+    
     func getPokemonIndex(pokemon: PokemonRow) -> Int {
         if let index = self.pokemonsList.firstIndex(of: pokemon) {
             return index + 1

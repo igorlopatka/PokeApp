@@ -55,7 +55,6 @@ struct PokemonListView: View {
                                 .foregroundColor(.yellow)
                         }
                     }
-
                 }
             })
             .task {
