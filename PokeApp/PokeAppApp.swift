@@ -10,8 +10,6 @@ import SwiftUI
 @main
 struct PokeAppApp: App {
     
-    
-    
     var body: some Scene {
         WindowGroup {
             SplashView()

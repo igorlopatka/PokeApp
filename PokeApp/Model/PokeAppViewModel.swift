@@ -6,10 +6,13 @@
 //
 
 import Foundation
+import SwiftUI
 
 @MainActor class PokeAppViewModel: ObservableObject {
     
-    @Published var pokemonsList = [PokemonRow]()
+    @StateObject var pokemonClient = PokemonAPIClient()
+    
+    @Published var pokemonsList = [Pokemon]()
     @Published var loadingState = LoadingState.loading
     @Published var searchText = ""
     @Published var showFavs = false
@@ -18,7 +21,7 @@ import Foundation
         case loading, loaded, failed
     }
     
-    var searchResults: [PokemonRow] {
+    var searchResults: [Pokemon] {
         get {
             if searchText.isEmpty {
                 if showFavs {
@@ -38,7 +41,7 @@ import Foundation
         }
     }
     
-    var favouritePokemons: [PokemonRow] {
+    var favouritePokemons: [Pokemon] {
             searchResults.filter { pokemon in
                 (!showFavs || pokemon.isFavourite)
             }
@@ -54,7 +57,7 @@ import Foundation
     }
     
     func getPokemonList() async {
-        let urlString = "https://pokeapi.co/api/v2/pokemon/?offset=0&limit=1153"
+        let urlString = "https://pokeapi.co/api/v2/pokemon/?offset=0&limit=1154"
         
         guard let url = URL(string: urlString) else {
             print("Bad URL: \(urlString)")
@@ -62,14 +65,20 @@ import Foundation
         }
         do {
             let (data, _) = try await URLSession.shared.data(from: url)
-            let items = try JSONDecoder().decode(PokemonPage.self, from: data)
+            let items = try JSONDecoder().decode(PokemonList.self, from: data)
             
-            var pokemons = [Pokemon]()
+            var pokemons = [PokemonRow]()
             pokemons = items.results
             
             for pokemon in pokemons {
                 
-                let pokemonRow = PokemonRow(name: pokemon.name, url: pokemon.url, isFavourite: false)
+                let pokemonDetails = await getPokemonDetails(pokemon: pokemon)
+                let pokemonRow = Pokemon(name: pokemon.name,
+                                         url: pokemon.url,
+                                         sprite: (pokemonDetails?.sprites.front_default)!,
+                                         type: (pokemonDetails?.types.type[0].name)! ,
+                                         isFavourite: false)
+                
                 pokemonsList.append(pokemonRow)
                 
             }
@@ -83,24 +92,46 @@ import Foundation
         }
     }
     
-    func getPokemonDetails() async {
+    func getPokemonDetails(pokemon: PokemonRow) async -> PokemonDetails? {
         
+        let urlString = "https://pokeapi.co/api/v2/pokemon/\(pokemon.name)"
+        
+        guard let url = URL(string: urlString) else {
+            print("Bad URL: \(urlString)")
+            return nil
+        }
+        do {
+            let (data, _) = try await URLSession.shared.data(from: url)
+
+            let result = try JSONDecoder().decode(PokemonDetails.self, from: data)
+            print("2")
+            let pokemonDetails = result
+            
+            print(pokemonDetails)
+            
+            return pokemonDetails
+                
+    
+        } catch {
+            print("Error fetching pokemon details: \(error.localizedDescription)")
+            return nil
+        }
     }
     
-    func getPokemonIndex(pokemon: PokemonRow) -> Int {
+    func getPokemonIndex(pokemon: Pokemon) -> Int {
         if let index = self.pokemonsList.firstIndex(of: pokemon) {
             return index + 1
         }
         return 0
     }
     
-    func addFav(_ pokemon: PokemonRow) {
+    func addFav(_ pokemon: Pokemon) {
         if let chosenPokemonIndex = self.pokemonsList.firstIndex(of: pokemon) {
             pokemonsList[chosenPokemonIndex].isFavourite.toggle()
         }
     }
     
-    func imageURL(pokemon: PokemonRow) -> String {
+    func imageURL(pokemon: Pokemon) -> String {
         let imageURL = "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/\(getPokemonIndex(pokemon: pokemon)).png"
         return imageURL
     }

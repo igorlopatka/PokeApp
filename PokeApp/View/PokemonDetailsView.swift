@@ -11,7 +11,7 @@ struct PokemonDetailsView: View {
     
     @ObservedObject var viewModel: PokeAppViewModel
     
-    let pokemon: PokemonRow
+    let pokemon: Pokemon
     
     var body: some View {
         VStack {

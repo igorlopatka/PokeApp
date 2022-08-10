@@ -10,7 +10,7 @@ import SwiftUI
 struct PokemonRowView: View {
     
     let viewModel: PokeAppViewModel
-    let pokemon: PokemonRow
+    let pokemon: Pokemon
     
     var body: some View {
         HStack {
@@ -37,7 +37,7 @@ struct PokemonRowView: View {
                     Spacer()
                 }
                 HStack {
-                    Text("Pokémon of type fire")
+//                    Text("Pokémon of type fire")
                     Spacer()
                 }
             }
