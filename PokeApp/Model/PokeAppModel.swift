@@ -12,8 +12,6 @@ struct Pokemon: Hashable {
     let id = UUID()
     let name: String
     let url: String
-    let sprite: String
-//    let type: String
     var isFavourite = false
 }
 

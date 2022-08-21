@@ -72,11 +72,8 @@ import SwiftUI
             
             for pokemon in pokemons {
                 
-                let pokemonDetails = await getPokemonDetails(pokemon: pokemon)
                 let pokemonRow = Pokemon(name: pokemon.name,
                                          url: pokemon.url,
-                                         sprite: (pokemonDetails?.sprites.front_default)!,
-                                         type: (pokemonDetails?.types.type[0].name)! ,
                                          isFavourite: false)
                 
                 pokemonsList.append(pokemonRow)
