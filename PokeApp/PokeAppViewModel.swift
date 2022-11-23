@@ -84,6 +84,7 @@ import SwiftUI
             }
             
             loadingState = .loaded
+            offset += limit
             
         } catch {
             loadingState = .failed
