@@ -28,7 +28,7 @@ struct PokemonListView: View {
                             }
                             .tint(.yellow)
                         }
-                        if viewModel.listIsFull == false {
+                        if viewModel.listIsFull == false && viewModel.showFavs == false {
                             ProgressView()
                                 .onAppear {
                                     Task {
