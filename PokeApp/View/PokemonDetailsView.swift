@@ -24,7 +24,7 @@ struct PokemonDetailsView: View {
             .scaledToFill()
             .clipShape(Circle())
             HStack {
-                Image(pokemon.isFavourite ? "star-solid" :"star-regular")
+                Image(systemName: pokemon.isFavourite ? "star.fill" :"star")
                     .resizable()
                     .frame(width: 40, height: 37.5, alignment: .center)
                     .foregroundColor(.yellow)
