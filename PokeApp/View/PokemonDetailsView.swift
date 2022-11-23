@@ -26,9 +26,11 @@ struct PokemonDetailsView: View {
             HStack {
                 Image(systemName: pokemon.isFavourite ? "star.fill" :"star")
                     .resizable()
-                    .frame(width: 40, height: 37.5, alignment: .center)
+                    .frame(width: 30, height: 30, alignment: .center)
                     .foregroundColor(.yellow)
-                Text(pokemon.name.capitalized).fontWeight(.bold)
+                Text(pokemon.name.capitalized)
+                    .fontWeight(.bold)
+                    .font(.largeTitle)
             }
         }
     }
