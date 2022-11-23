@@ -9,13 +9,17 @@ import Foundation
 import SwiftUI
 
 @MainActor class PokeAppViewModel: ObservableObject {
-    
-    @StateObject var pokemonClient = PokemonAPIClient()
-    
+        
     @Published var pokemonsList = [Pokemon]()
     @Published var loadingState = LoadingState.loading
     @Published var searchText = ""
     @Published var showFavs = false
+    
+    var listIsFull = false
+    var offset = 0
+    let limit = 20
+    
+    var pokemons = [PokemonRow]()
     
     enum LoadingState {
         case loading, loaded, failed
@@ -51,13 +55,13 @@ import SwiftUI
     func managePokemonList() {
         if pokemonsList.isEmpty {
             Task {
-                await getPokemonList()
+                await fetchPokemons()
             }
         }
     }
     
-    func getPokemonList() async {
-        let urlString = "https://pokeapi.co/api/v2/pokemon/?offset=0&limit=1154"
+    func fetchPokemons() async {
+        let urlString = "https://pokeapi.co/api/v2/pokemon/?offset=\(offset)&limit=\(limit)"
         
         guard let url = URL(string: urlString) else {
             print("Bad URL: \(urlString)")
@@ -67,7 +71,6 @@ import SwiftUI
             let (data, _) = try await URLSession.shared.data(from: url)
             let items = try JSONDecoder().decode(PokemonList.self, from: data)
             
-            var pokemons = [PokemonRow]()
             pokemons = items.results
             
             for pokemon in pokemons {

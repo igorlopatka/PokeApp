@@ -28,6 +28,14 @@ struct PokemonListView: View {
                             }
                             .tint(.yellow)
                         }
+                        if viewModel.listIsFull == false {
+                            ProgressView()
+                                .onAppear {
+                                    Task {
+                                        await viewModel.fetchPokemons()
+                                    }
+                                }
+                        }
                     }
                     .listRowSeparator(.hidden)
                     .searchable(text: $viewModel.searchText, prompt: "Which Pokémon are you looking for?")

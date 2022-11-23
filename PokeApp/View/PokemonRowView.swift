@@ -37,7 +37,6 @@ struct PokemonRowView: View {
                     Spacer()
                 }
                 HStack {
-//                    Text("Pokémon of type fire")
                     Spacer()
                 }
             }
