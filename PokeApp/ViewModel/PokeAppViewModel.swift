@@ -13,6 +13,7 @@ import SwiftUI
     @Published var pokemonsList = [Pokemon]()
     @Published var loadingState = LoadingState.loading
     @Published var searchText = ""
+    @Published var isSearching = false
     @Published var showFavs = false
     
     var listIsFull = false
@@ -36,7 +37,6 @@ import SwiftUI
                     return pokemonsList 
                 }
             } else {
-                
                 return pokemonsList.filter { $0.name.lowercased().contains(searchText.lowercased())}
             }
         }
