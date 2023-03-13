@@ -8,6 +8,7 @@
 import Foundation
 
 struct PokeAPI {
+    
     static let baseURL = URL(string: "https://pokeapi.co/api/v2/")!
     static let pokemonList = baseURL.appendingPathComponent("pokemon")
 }
