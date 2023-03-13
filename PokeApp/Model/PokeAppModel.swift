@@ -11,20 +11,19 @@ struct Pokemon: Hashable {
 
     let id = UUID()
     let name: String
-    let url: String
-    var isFavourite = false
+    let url: URL
+    var isFavourite: Bool
 }
 
 struct PokemonList: Codable {
 
-    let count: Int
     let results: [PokemonRow]
 }
 
 struct PokemonRow: Codable, Hashable {
     
     let name: String
-    let url: String
+    let url: URL
 }
 
 struct PokemonDetails: Codable {
