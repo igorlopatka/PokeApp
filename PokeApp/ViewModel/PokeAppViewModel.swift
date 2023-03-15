@@ -5,22 +5,27 @@
 //  Created by Igor Łopatka on 20/07/2022.
 //
 
+import Combine
 import Foundation
 import SwiftUI
 
 @MainActor class PokeAppViewModel: ObservableObject {
+    
+    private var cancellables = Set<AnyCancellable>()
+    let service = PokemonService()
         
     @Published var pokemonsList = [Pokemon]()
+    
     @Published var loadingState = LoadingState.loading
+    
     @Published var searchText = ""
     @Published var isSearching = false
+    
     @Published var showFavs = false
     
     var listIsFull = false
     var offset = 0
     let limit = 20
-    
-    var pokemons = [PokemonRow]()
     
     enum LoadingState {
         case loading, loaded, failed
@@ -55,42 +60,40 @@ import SwiftUI
     func managePokemonList() {
         if pokemonsList.isEmpty {
             Task {
-                await fetchPokemons()
+                loadPokemonList()
             }
         }
     }
     
-    func fetchPokemons() async {
-        let urlString = "https://pokeapi.co/api/v2/pokemon/?offset=\(offset)&limit=\(limit)"
+    //MARK: - Service calls
+    
+    func loadPokemonList() {
+        guard !listIsFull else { return }
         
-        guard let url = URL(string: urlString) else {
-            print("Bad URL: \(urlString)")
-            return
-        }
-        do {
-            let (data, _) = try await URLSession.shared.data(from: url)
-            let items = try JSONDecoder().decode(PokemonList.self, from: data)
-            
-            pokemons = items.results
-            
-            for pokemon in pokemons {
+        service.getPokemonList(offset: offset, limit: limit)
+            .receive(on: DispatchQueue.main)
+            .sink { completion in
+                if case let .failure(error) = completion {
+                    print(error.localizedDescription)
+                    self.loadingState = .failed
+                }
+            } receiveValue: { pokemons in
                 
-                let pokemonRow = Pokemon(name: pokemon.name,
-                                         url: pokemon.url,
-                                         isFavourite: false)
+                for pokemon in pokemons {
+                    let pokemonRow = Pokemon(name: pokemon.name,
+                                             url: pokemon.url,
+                                             isFavourite: false)
+                    self.pokemonsList.append(pokemonRow)
+                }
                 
-                pokemonsList.append(pokemonRow)
+                self.loadingState = .loaded
+                self.offset += self.limit
                 
+                if pokemons.count < self.limit {
+                    self.listIsFull = true
+                }
             }
-            
-            loadingState = .loaded
-            offset += limit
-            
-        } catch {
-            loadingState = .failed
-            print("Error fetching pokemons: \(error)")
-            return
-        }
+            .store(in: &cancellables)
     }
     
     func getPokemonDetails(pokemon: PokemonRow) async -> PokemonDetails? {

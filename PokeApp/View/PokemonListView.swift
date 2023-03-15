@@ -32,7 +32,7 @@ struct PokemonListView: View {
                             ProgressView()
                                 .onAppear {
                                     Task {
-                                        await viewModel.fetchPokemons()
+                                        viewModel.loadPokemonList()
                                     }
                                 }
                         }

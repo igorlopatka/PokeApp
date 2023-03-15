@@ -10,6 +10,6 @@ import Combine
 
 protocol PokeAPIProtocol {
     
-    func getPokemonList() -> AnyPublisher<[Pokemon], Error>
+    func getPokemonList(offset: Int, limit: Int) -> AnyPublisher<[PokemonRow], Error>
     func getPokemonDetails(url: URL) -> AnyPublisher<PokemonDetails, Error>
 }
