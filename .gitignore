@@ -113,3 +113,4 @@ Info.plist
 
 # End of https://www.toptal.com/developers/gitignore/api/xcode,swift,swiftpm,swiftpackagemanagerInfo.plist
 YOUR-FILE-WITH-SENSITIVE-DATA
+PokeApp.xcodeproj
